@@ -1,0 +1,112 @@
+.home-page {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  max-width: 800px;
+  background-color: var(--army-green);
+  border-bottom: 1px solid var(--army-green);
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 800px;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-header {
+  background-color:#fff;
+  color: #333;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.25em;
+}
+
+.card-body {
+  color: #fff;
+  padding: 20px;
+}
+
+.list-group-item {
+  background-color: #5b636b;
+  color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.list-group-item strong {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.personnel-card .list-group-item ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.personnel-card .list-group-item li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.personnel-card .list-group-item li strong {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.todo-card {
+  margin-top: 20px;
+}
+
+.todo-card .form-control {
+  margin-bottom: 10px;
+}
+
+.todo-card .btn {
+  background-color: #007bff;
+  border: none;
+}
+
+.todo-card .btn:hover {
+  background-color: #0056b3;
+}
+
+.news-calendar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+@media (min-width: 768px) {
+  .news-calendar-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.2s;
+}
+
+.card-header, .card-body, .list-group-item {
+  transition: background-color 0.3s;
+}
+
+.card:hover .card-header, .card:hover .card-body, .card:hover .list-group-item {
+  background-color: #c4dbef;
+}
+.news-card{
+  color: #f5f5f5;
+}
+

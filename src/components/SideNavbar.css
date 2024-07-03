@@ -1,0 +1,67 @@
+/* SideNavbar.css */
+
+.side-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px; /* Increased size */
+    background-color: #252a41;
+    color: #fff;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    transform: translateX(-300px); /* Initially hidden off-screen */
+    z-index: 1000;
+}
+
+.side-navbar.open {
+    transform: translateX(0); /* Slide in when open */
+}
+
+.side-navbar-header {
+    padding: 15px;
+    text-align: right;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.close-btn:focus {
+    outline: none;
+}
+
+.nav-link {
+    color: #fff; /* White text */
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: #3f455c;
+    color: #08d665; /* Green text upon hover */
+    border-left: 3px solid #08d665; /* Highlight border on active/hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .side-navbar {
+        width: 250px; /* Adjusted size for smaller screens */
+    }
+
+    .side-navbar.open {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 576px) {
+    .side-navbar {
+        width: 100%;
+        max-width: 300px; /* Increased max-width */
+    }
+}

@@ -1,0 +1,89 @@
+.NavBar {
+    background-color: var(--army-green); /* Army green */
+    padding: 10px;
+    border-bottom: 1px solid var(--army-green);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .NavBar .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* White text on green background */
+  }
+  
+  .NavBar .navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .NavBar .form-control {
+    background-color: var(--khaki); /* Khaki background for textboxes */
+    color: #333; /* Dark gray text */
+    border: 1px solid var(--khaki);
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .NavBar .btn {
+    background-color: var(--gold); /* Gold */
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .NavBar .btn:hover {
+    background-color: var(--army-green);
+  }
+  
+  .NavBar .nav-link {
+    color: #fff; /* White text on green background */
+    text-decoration: none;
+  }
+  
+  .NavBar .nav-link:hover {
+    color: #ccc; /* Light gray */
+  }
+  
+  .NavBar .notification-link {
+    position: relative;
+  }
+  
+  .NavBar .notification-icon {
+    font-size: 20px;
+    color: #fff; /* White text on green background */
+  }
+  
+  .NavBar .notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 12px;
+    background-color: var(--gold); /* Gold */
+    color: black;
+    padding: 2px 5px;
+    border-radius: 5px;
+  }
+  
+  .SideNavbar {
+    background-color: var(--army-green); /* Army green */
+    padding: 20px;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .SideNavbar.isOpen {
+    transform: translateX(0);
+  }
+  
+  .SideNavbar.isClosed {
+    transform: translateX(-250px);
+  }
+  
