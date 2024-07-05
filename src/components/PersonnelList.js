@@ -1,5 +1,3 @@
-// src/components/PersonnelList.js
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +6,7 @@ import { Table, Button, Container, Row, Col } from 'react-bootstrap';
 const PersonnelList = () => {
   const [personnel, setPersonnel] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,8 +18,10 @@ const PersonnelList = () => {
     try {
       const response = await axios.get('/personnel');
       setPersonnel(response.data);
+      setLoading(false); // Set loading to false after fetching data
     } catch (error) {
       console.error('Error fetching personnel:', error);
+      setLoading(false); // Ensure loading state is updated even on error
     }
   };
 
@@ -36,6 +37,11 @@ const PersonnelList = () => {
   const handleFullDetails = (service_number) => {
     navigate(`/personnelDetails/${service_number}`);
   };
+
+  // Show loading message or indicator when data is being fetched
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <Container fluid>

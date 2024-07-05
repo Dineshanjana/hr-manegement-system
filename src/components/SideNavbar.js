@@ -46,6 +46,9 @@ const SideNavbar = ({ isOpen, toggleSidebar }) => {
                     <LinkContainer to="/leavetable" onClick={toggleSidebar}>
                 <Nav.Link>Leavetable</Nav.Link>
                     </LinkContainer>
+                    <LinkContainer to="/additionalcolumns" onClick={toggleSidebar}>
+                <Nav.Link>Additional columns</Nav.Link>
+                    </LinkContainer>
             </Nav>
         </div>
     );

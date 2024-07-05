@@ -1,84 +1,118 @@
 const Personnel = require('../models/Personnel');
 
 const personnelController = {
-  getAll: (req, res) => {
-    Personnel.getAll((err, results) => {
+  getPersonnel: (req, res) => {
+    Personnel.getPersonnel((err, results) => {
       if (err) {
-        console.error('Error fetching all personnel:', err);
+        console.error('Error fetching personnel', err);
         res.status(500).json({ error: 'Internal server error' });
         return;
       }
       res.json(results);
+    });
+  },
+  getWife: (req, res) => {
+    const { serviceNumber } = req.params;
+    Personnel.getWife(serviceNumber, (err, results) => {
+      if (err) {
+        console.error('Error fetching wife data', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(results);
+    });
+  },
+  getChild: (req, res) => {
+    const { serviceNumber } = req.params;
+    Personnel.getChild(serviceNumber, (err, results) => {
+      if (err) {
+        console.error('Error fetching child data', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(results);
+    });
+  },
+  getDetails: (req, res) => {
+    const { serviceNumber } = req.params;
+    Personnel.getPersonnelDetails(serviceNumber, (err, results) => {
+      if (err) {
+        console.error('Error Fetching all details', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(results);
+    });
+  },
+
+  getColumn: (req, res) => {
+    Personnel.getColumn('armypersonal', (err, results) => {
+      if (err) {
+        console.error('Error fetching columns', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(results);
+    })
+  },
+  getColumnWife: (req, res) => {
+    Personnel.getColumn('armywife', (err, results) => {
+      if (err) {
+        console.error('Error fetching wife columns', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(results);
+    });
+  },
+
+  getColumnChild: (req, res) => {
+    Personnel.getColumn('armychild', (err, results) => {
+      if (err) {
+        console.error('Error fetching child columns', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(results);
+    });
+  },
+
+  insertPersonnel: (req, res) => {
+    const personnelData = req.body;
+    Personnel.insertPersonnel(personnelData, (err, results) => {
+      if (err) {
+        console.error('Error inserting personnel data', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json({ status: 200, message: 'Personnel data inserted', insertId: results.insertId });
     });
   },
   
 
-  create: (req, res) => {
-    const newPersonnel = req.body;
-    Personnel.create(newPersonnel, (err, result) => {
+  insertWife: (req, res) => {
+    const wifeData = req.body;
+    Personnel.insertWife(wifeData, (err, results) => {
       if (err) {
-        console.error('Error creating new personnel:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error inserting wife data', err);
+        res.status(500).json({ error: 'Internal Server Error' });
         return;
       }
-      res.status(201).json({ insertId: result.insertId });
+      res.json({ status: 200, message: 'Wife data inserted' });
     });
   },
 
-  getColumns: (req, res) => {
-    Personnel.getColumns((err, results) => {
+  insertChild: (req, res) => {
+    const childData = req.body;
+    Personnel.insertChild(childData, (err, results) => {
       if (err) {
-        console.error('Error fetching personnel columns:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error inserting child data', err);
+        res.status(500).json({ error: 'Internal Server Error' });
         return;
       }
-      res.json(results);
+      res.json({ status: 200, message: 'Child data inserted' });
     });
-  },
-
-  addColumn: (req, res) => {
-    const { columnName, columnType } = req.body;
-    Personnel.addColumn(columnName, columnType, (err, result) => {
-      if (err) {
-        console.error('Error adding column:', err);
-        res.status(500).json({ error: 'Internal server error' });
-        return;
-      }
-      res.status(201).send(`Column ${columnName} added successfully.`);
-    });
-  },
-
-  getById: (req, res) => {
-    const personnelId = req.params.id;
-    Personnel.getById(personnelId, (err, results) => {
-      if (err) {
-        console.error(`Error fetching personnel with ID ${personnelId}:`, err);
-        res.status(500).json({ error: 'Internal server error' });
-        return;
-      }
-      if (results.length === 0) {
-        res.status(404).json({ message: 'Personnel not found' });
-        return;
-      }
-      res.status(200).json(results[0]);
-    });
-  },
-
-  getByServiceNumber: (req, res) => {
-    const serviceNumber = req.params.service_number;
-    Personnel.getByServiceNumber(serviceNumber, (err, results) => {
-      if (err) {
-        console.error(`Error fetching personnel with service number ${serviceNumber}:`, err);
-        res.status(500).json({ error: 'Internal server error' });
-        return;
-      }
-      if (results.length === 0) {
-        res.status(404).json({ message: 'Personnel not found' });
-        return;
-      }
-      res.status(200).json(results[0]);
-    });
-  },
+  }
 };
 
 module.exports = personnelController;

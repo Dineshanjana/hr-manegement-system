@@ -8,6 +8,7 @@ const personnelRoutes = require("./routes/personnelRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const userRoutes = require("./routes/userRoutes");
 const qualificationRoutes = require("./routes/qualificationRoutes");
+const additionalColumnsRoutes = require("./routes/AdditionalColumns");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -40,6 +41,8 @@ app.use("/personnel", personnelRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/users", userRoutes);
 app.use("/qualification", qualificationRoutes);
+app.use("/additional",additionalColumnsRoutes);
+
 
 // Database connection
 db.connect((err) => {
