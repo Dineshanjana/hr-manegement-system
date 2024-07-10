@@ -1,34 +1,34 @@
-const armyCourseModel = require("../models/qualificationModel");
+const qualificationsModel = require("../models/qualificationModel");
 
-const qualificationController = {
-	insertCourse: (req, res) => {
-		const { CourseName, grading } = req.body;
-
-		if (!CourseName || !grading) {
-			return res.json({
-				status: 400,
-				error: "CourseName and grading are required",
-			});
-		}
-		armyCourseModel.insertCourse(CourseName, grading, (err, results) => {
+const qualificationsController = {
+	createQualification: (req, res) => {
+		const newQualification = req.body;
+		qualificationsModel.insertQualification(newQualification, (err, result) => {
 			if (err) {
-				return res.json({ status: 500, error: "Error adding course" });
+				return res.status(500).send("Error inserting qualification");
 			}
-			res.json({
-				status: 201,
-				message: "Course added successfully",
-				courseId: results.insertId,
-			});
+			res.status(201).send("Qualification created successfully");
 		});
 	},
-	getCourses: (req, res) => {
-		armyCourseModel.getCourses((err, results) => {
+
+	listQualifications: (req, res) => {
+		qualificationsModel.getQualifications((err, results) => {
 			if (err) {
-				return res.json({ status: 500, error: "Error fetching courses" });
+				return res.status(500).send("Error fetching qualifications");
 			}
-			res.json({ status: 200, results });
+			res.status(200).json(results);
+		});
+	},
+
+	getQualification: (req, res) => {
+		const { id } = req.params;
+		qualificationsModel.getQualificationById(id, (err, result) => {
+			if (err) {
+				return res.status(500).send("Error fetching qualification");
+			}
+			res.status(200).json(result);
 		});
 	},
 };
 
-module.exports = qualificationController;
+module.exports = qualificationsController;

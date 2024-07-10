@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -16,11 +17,9 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
 	session({
-		secret:
-			"626d50aeade1d2ea701e706fb707836ac6cd30ea939807c22d6640fe5d5ca67866ec062a5cb7",
+		secret: process.env.JWT_SECRET_KEY,
 		resave: false,
 		saveUninitialized: true,
-		cookie: { secure: false }, // Set secure to true if using https
 	})
 );
 app.use(bodyParser.json());
@@ -32,7 +31,7 @@ const corsOptions = {
 	allowedHeaders: ["Content-Type"],
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Route setup
 app.use("/wifeDetails", wifeDetailsRoutes);
