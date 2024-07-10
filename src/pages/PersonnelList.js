@@ -24,20 +24,16 @@ const PersonnelList = () => {
     fetchPersonnel();
   }, []);
 
-  const handleFullDetails = (personnel_id) => {
-    if (personnel_id) {
-      navigate(`/personnelDetails/${personnel_id}`);
-    } else {
-      console.error('Invalid personnel_id:', personnel_id);
-    }
+  const handleFullDetails = (personnelId) => {
+    navigate(`/personnelDetails/${personnelId}`);
   };
 
   const renderTableHeader = () => {
     if (personnel.length === 0) return null;
-
+    const headers = Object.keys(personnel[0]);
     return (
       <tr>
-        {Object.keys(personnel[0]).map((key) => (
+        {headers.map((key) => (
           <th key={key} style={{ textAlign: 'center' }}>
             {key.charAt(0).toUpperCase() + key.slice(1)}
           </th>
@@ -47,11 +43,8 @@ const PersonnelList = () => {
     );
   };
 
-  const displayValue = (key, value) => {
-    if (typeof value === 'boolean') {
-      return value ? 'Yes' : 'No';
-    }
-    return value;
+  const displayValue = (value) => {
+    return typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value;
   };
 
   return (
@@ -65,22 +58,17 @@ const PersonnelList = () => {
             </div>
           ) : (
             <Table striped bordered hover responsive>
-              <thead>
-                {renderTableHeader()}
-              </thead>
+              <thead>{renderTableHeader()}</thead>
               <tbody>
                 {personnel.map((person) => (
                   <tr key={person.personnel_id}>
-                    {Object.keys(person).map((key) => (
-                      <td key={key} style={{ textAlign: 'center' }}>
-                        {displayValue(key, person[key])}
+                    {Object.values(person).map((value, idx) => (
+                      <td key={idx} style={{ textAlign: 'center' }}>
+                        {displayValue(value)}
                       </td>
                     ))}
                     <td style={{ textAlign: 'center' }}>
-                      <Button
-                        variant="info"
-                        onClick={() => handleFullDetails(person.personnel_id)}
-                      >
+                      <Button variant="info" onClick={() => handleFullDetails(person.personnel_id)}>
                         Full Details
                       </Button>
                     </td>

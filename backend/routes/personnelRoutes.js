@@ -2,25 +2,21 @@ const express = require('express');
 const router = express.Router();
 const personnelController = require('../controllers/personnelController');
 
-// GET all personnel
-router.get('/', personnelController.getAll);
+router.get('/', personnelController.getPersonnel);
 
-// POST create new personnel
-router.post('/', personnelController.create);
+router.get('/getwife/:serviceNumber', personnelController.getWife);
 
-// GET columns
-router.get('/columns', personnelController.getColumns);
+router.get('/getchild/:serviceNumber', personnelController.getChild);
 
-// POST add column
-router.post('/add-column', personnelController.addColumn);
+router.get('/columns', personnelController.getColumn);
 
-// GET personnel details by ID
-router.get('/personnelDetails/:id', personnelController.getById);
+router.get('/Details/:serviceNumber', personnelController.getDetails);
 
-// GET personnel by ID (alternative route)
-router.get('/:id', personnelController.getById);
+router.get('/columnswife', personnelController.getColumnWife);
 
-// GET personnel by service number
-router.get('/serviceNumber/:service_number', personnelController.getByServiceNumber);
+router.get('/columnschild', personnelController.getColumnChild);
+router.post('/', personnelController.insertPersonnel);
+router.post('/wife', personnelController.insertWife);
+router.post('/child', personnelController.insertChild);
 
 module.exports = router;

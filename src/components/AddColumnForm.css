@@ -1,56 +1,57 @@
-/* AddColumnForm.css */
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
 
-/* Indian Army colors */
-:root {
-    --army-green: #658147;
-    --khaki: #E7F0DC;
-    --gold: #CBD081;
-  }
-  
-  .AddColumnForm {
-    background-color: var(--army-green);
-    padding: 20px;
-    border: 1px solid var(--army-green);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .AddColumnForm label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #fff; /* White text on green background */
-  }
-  
-  .AddColumnForm input[type="text"], .AddColumnForm select {
-    width: 100%;
-    height: 40px;
-    padding: 10px;
-    border: 1px solid var(--khaki);
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: var(--khaki); /* Khaki background for textboxes */
-    color: #333; /* Dark gray text */
-  }
-  
-  .AddColumnForm button[type="submit"] {
-    background-color: var(--gold);
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .AddColumnForm button[type="submit"]:hover {
-    background-color: var(--army-green);
-  }
-  
-  .AddColumnForm .column-types {
-    margin-top: 20px;
-  }
-  
-  .AddColumnForm .column-types option {
-    padding: 10px;
-    font-size: 16px;
-  }
+.form-container, .column-input-container {
+  width: 45%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+input, select {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button.clear-button {
+  background-color: #dc3545;
+}
+
+button.clear-button:hover {
+  background-color: #c82333;
+}
+.btn-con {
+  margin: 10px 0px;
+}

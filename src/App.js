@@ -22,6 +22,7 @@ import PostingForm from './components/PostingFrom';
 import PostingTable from './components/postingtable';
 import LeaveForm from './components/LeaveForm';
 import LeaveTable from './components/LeaveTable';
+import AdditionalColumns from './pages/AdditionalColumns';
 
 
 
@@ -50,6 +51,7 @@ const App = () => {
                 <Route path="/postings" element={<PostingTable />} />
                 <Route path="/leaveform" element={<LeaveForm />} />
                 <Route path="/leavetable" element={<LeaveTable />} />
+                <Route path='/additionalcolumns' element={<AdditionalColumns/>} />
             </Routes>
             <Footer />
             <ToastContainer />

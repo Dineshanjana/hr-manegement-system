@@ -9,23 +9,27 @@ const PersonnelDetails = () => {
   const [personnel, setPersonnel] = useState({});
   const [columns, setColumns] = useState([]);
   const [wifeColumns, setWifeColumns] = useState([]);
+  const [childColumns, setChildColumns] = useState([]);
   const [courses, setCourses] = useState([]);
   const [postings, setPostings] = useState([]);
   const [showAddCourseForm, setShowAddCourseForm] = useState(false);
   const [showTabs, setShowTabs] = useState(true);
+  const [wifeData, setWifeData] = useState([]);
+  const [childData, setChildData] = useState([]);
 
   useEffect(() => {
     fetchPersonnelDetails();
     fetchColumns();
-    fetchWifeColumns();
+    fetchwifeColumns();
+    fetchchildColumns();
     fetchCourses();
     fetchPostings();
   }, [service_number]);
 
   const fetchPersonnelDetails = async () => {
     try {
-      const response = await axios.get(`/personnel/serviceNumber/${service_number}`);
-      setPersonnel(response.data);
+      const response = await axios.get(`/personnel/Details/${service_number}`);
+      setPersonnel(response.data[0]); // Assuming response.data is an array with one object
     } catch (error) {
       console.error('Error fetching personnel details:', error);
     }
@@ -40,14 +44,26 @@ const PersonnelDetails = () => {
     }
   };
 
-  const fetchWifeColumns = async () => {
+  const fetchwifeColumns = async () => {
     try {
-      const response = await axios.get('/wifeDetails/columns');
-      setWifeColumns(response.data.map((col) => col.Field));
+      const response = await axios.get('/personnel/columswife');
+      setwifeColumns(response.data.map((col) => col.Field));
     } catch (error) {
-      console.error('Error fetching wife columns:', error);
+      console.error('Error fetching columns:', error);
     }
   };
+
+  const fetchchildColumns = async () => {
+    try {
+      const response = await axios.get('/personnel/columnschild');
+      setchildColumns(response.data.map((col) => col.Field));
+    } catch (error) {
+      console.error('Error fetching columns:', error);
+    }
+  };
+
+
+  
 
   const fetchCourses = async () => {
     try {
@@ -58,6 +74,7 @@ const PersonnelDetails = () => {
     }
   };
 
+
   const fetchPostings = async () => {
     try {
       const response = await axios.get(`/postings/${service_number}`);
@@ -67,12 +84,40 @@ const PersonnelDetails = () => {
     }
   };
 
+  const fetchWifeData = async () => {
+    try {
+      const response = await axios.get(`/personnel/getwife/${service_number}`);
+      setWifeData(response.data);
+      setWifeColumns(Object.keys(response.data[0] || {}));
+    } catch (error) {
+      console.error('Error fetching wife data:', error);
+    }
+  };
+
+  const fetchChildData = async () => {
+    try {
+      const response = await axios.get(`/personnel/getchild/${service_number}`);
+      setChildData(response.data);
+      setChildColumns(Object.keys(response.data[0] || {}));
+    } catch (error) {
+      console.error('Error fetching child data:', error);
+    }
+  };
+
   const toggleAddCourseForm = () => {
     setShowAddCourseForm(!showAddCourseForm);
   };
 
   const toggleTabsVisibility = () => {
     setShowTabs(!showTabs);
+  };
+
+  const handleTabSelect = (key) => {
+    if (key === 'wife') {
+      fetchWifeData();
+    } else if (key === 'child') {
+      fetchChildData();
+    }
   };
 
   return (
@@ -86,7 +131,7 @@ const PersonnelDetails = () => {
 
       {/* Tabs and Content */}
       {showTabs && (
-        <Tab.Container id="personnel-details-tabs" defaultActiveKey="personnel">
+        <Tab.Container id="personnel-details-tabs" defaultActiveKey="personnel" onSelect={handleTabSelect}>
           <Row>
             <Col sm={2}>
               <Nav variant="pills" className="flex-column">
@@ -95,6 +140,9 @@ const PersonnelDetails = () => {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link eventKey="wife">Wife Details</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="child">Child Details</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link eventKey="courses">Courses</Nav.Link>
@@ -150,7 +198,33 @@ const PersonnelDetails = () => {
                               <td>
                                 <strong>{column}</strong>
                               </td>
-                              <td>{personnel[column]}</td>
+                              <td>{wifeData[0]?.[column]}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </Card.Body>
+                  </Card>
+                </Tab.Pane>
+                <Tab.Pane eventKey="child">
+                  <Card className="shadow-sm mb-4">
+                    <Card.Header as="h5" className="bg-primary text-white text-center py-3">
+                      Child Details
+                    </Card.Header>
+                    <Card.Body>
+                      <Table striped bordered hover responsive className="table custom-table">
+                        <thead>
+                          <tr>
+                            <th colSpan="2" className="text-center">Child Details</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {childColumns.map((column) => (
+                            <tr key={`child_${column}`}>
+                              <td>
+                                <strong>{column}</strong>
+                              </td>
+                              <td>{childData[0]?.[column]}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -215,8 +289,7 @@ const PersonnelDetails = () => {
                             <th>Prefix Date</th>
                             <th>Suffix Date</th>
                             <th>Remarks</th>
-                            <th>Reported Back</th>
-                            <th>Reporting Date</th>
+                            <th>Reported On Date</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -229,8 +302,7 @@ const PersonnelDetails = () => {
                               <td>{posting.prefix_date}</td>
                               <td>{posting.suffix_date}</td>
                               <td>{posting.remarks}</td>
-                              <td>{posting.reported_back}</td>
-                              <td>{posting.reporting_date}</td>
+                              <td>{posting.reported_on_date}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -246,13 +318,12 @@ const PersonnelDetails = () => {
 
       {/* All Sections Together */}
       <div className={!showTabs ? 'mt-4' : 'd-none'}>
-        <Card className="shadow-sm">
+        <Card className="shadow-sm mb-4">
           <Card.Header as="h5" className="bg-primary text-white text-center py-3">
             Personnel Details
           </Card.Header>
           <Card.Body>
-            {/* Personnel Details Table */}
-            <Table striped bordered hover responsive className="table custom-table mb-4">
+            <Table striped bordered hover responsive className="table custom-table">
               <thead>
                 <tr>
                   <th colSpan="2" className="text-center">Personnel Details</th>
@@ -269,9 +340,14 @@ const PersonnelDetails = () => {
                 ))}
               </tbody>
             </Table>
-
-            {/* Wife Details Table */}
-            <Table striped bordered hover responsive className="table custom-table mb-4">
+          </Card.Body>
+        </Card>
+        <Card className="shadow-sm mb-4">
+          <Card.Header as="h5" className="bg-primary text-white text-center py-3">
+            Wife Details
+          </Card.Header>
+          <Card.Body>
+            <Table striped bordered hover responsive className="table custom-table">
               <thead>
                 <tr>
                   <th colSpan="2" className="text-center">Wife Details</th>
@@ -283,14 +359,43 @@ const PersonnelDetails = () => {
                     <td>
                       <strong>{column}</strong>
                     </td>
-                    <td>{personnel[column]}</td>
+                    <td>{wifeData[0]?.[column]}</td>
                   </tr>
                 ))}
               </tbody>
             </Table>
-
-            {/* Courses Table */}
-            <Table striped bordered hover responsive className="table custom-table mb-4">
+          </Card.Body>
+        </Card>
+        <Card className="shadow-sm mb-4">
+          <Card.Header as="h5" className="bg-primary text-white text-center py-3">
+            Child Details
+          </Card.Header>
+          <Card.Body>
+            <Table striped bordered hover responsive className="table custom-table">
+              <thead>
+                <tr>
+                  <th colSpan="2" className="text-center">Child Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {childColumns.map((column) => (
+                  <tr key={`child_${column}`}>
+                    <td>
+                      <strong>{column}</strong>
+                    </td>
+                    <td>{childData[0]?.[column]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
+        <Card className="shadow-sm mb-4">
+          <Card.Header as="h5" className="bg-primary text-white text-center py-3">
+            Courses
+          </Card.Header>
+          <Card.Body>
+            <Table striped bordered hover responsive className="table custom-table">
               <thead>
                 <tr>
                   <th>Course Name</th>
@@ -310,39 +415,6 @@ const PersonnelDetails = () => {
                 ))}
               </tbody>
             </Table>
-
-            {/* Postings Table */}
-            <Table striped bordered hover responsive className="table custom-table">
-              <thead>
-                <tr>
-                  <th>Posted To</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Number of Days</th>
-                  <th>Prefix Date</th>
-                  <th>Suffix Date</th>
-                  <th>Remarks</th>
-                  <th>Reported Back</th>
-                  <th>Reporting Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {postings.map((posting, index) => (
-                  <tr key={index}>
-                    <td>{posting.posted_to}</td>
-                    <td>{posting.start_date}</td>
-                    <td>{posting.end_date}</td>
-                    <td>{posting.no_of_days}</td>
-                    <td>{posting.prefix_date}</td>
-                    <td>{posting.suffix_date}</td>
-                    <td>{posting.remarks}</td>
-                    <td>{posting.reported_back}</td>
-                    <td>{posting.reporting_date}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-
             <div className="text-center mt-3">
               <Button variant="primary" onClick={toggleAddCourseForm}>
                 Add Course
@@ -355,6 +427,41 @@ const PersonnelDetails = () => {
                 onClose={toggleAddCourseForm}
               />
             )}
+          </Card.Body>
+        </Card>
+        <Card className="shadow-sm mb-4">
+          <Card.Header as="h5" className="bg-primary text-white text-center py-3">
+            Postings
+          </Card.Header>
+          <Card.Body>
+            <Table striped bordered hover responsive className="table custom-table">
+              <thead>
+                <tr>
+                  <th>Posted To</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Number of Days</th>
+                  <th>Prefix Date</th>
+                  <th>Suffix Date</th>
+                  <th>Remarks</th>
+                  <th>Reported On Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {postings.map((posting, index) => (
+                  <tr key={index}>
+                    <td>{posting.posted_to}</td>
+                    <td>{posting.start_date}</td>
+                    <td>{posting.end_date}</td>
+                    <td>{posting.no_of_days}</td>
+                    <td>{posting.prefix_date}</td>
+                    <td>{posting.suffix_date}</td>
+                    <td>{posting.remarks}</td>
+                    <td>{posting.reported_on_date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </Card.Body>
         </Card>
       </div>
