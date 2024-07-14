@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const qualificationController = require("../controllers/qualificationController");
+const qualificationsController = require("../controllers/qualificationController");
 
-router.post("/addCourse", qualificationController.insertCourse);
-router.get("/getCourses", qualificationController.getCourses);
+router.post("/qualifications", qualificationsController.createQualification);
+router.get("/qualifications", qualificationsController.listQualifications);
+router.get("/qualifications/:id", qualificationsController.getQualification);
 
 module.exports = router;
