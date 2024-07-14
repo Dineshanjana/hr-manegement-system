@@ -159,24 +159,29 @@ app.get("/courses/:courseId/personnel", (req, res) => {
 });
 
 // Endpoint to search personnel by name or service number
+// Endpoint to search personnel by name or service number
 app.get("/personnelsearch", (req, res) => {
-	const { searchTerm } = req.query;
-	const query = `
+    const { searchTerm } = req.query;
+    console.log('Received search term:', searchTerm); // Add this line to debug
+    const query = `
         SELECT personnel_id, service_number, first_name, last_name 
-        FROM personnel 
+        FROM armypersonal 
         WHERE first_name LIKE ? OR last_name LIKE ? OR service_number LIKE ?
     `;
-	db.query(
-		query,
-		[`%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`],
-		(err, results) => {
-			if (err) {
-				return res.status(500).json({ error: err.message });
-			}
-			res.json(results);
-		}
-	);
+    db.query(
+        query,
+        [`%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`],
+        (err, results) => {
+            if (err) {
+                console.error('Error fetching personnel:', err); // Add this line to debug
+                return res.status(500).json({ error: err.message });
+            }
+            console.log('Search results:', results); // Add this line to debug
+            res.json(results);
+        }
+    );
 });
+
 
 // Endpoint to create a new posting record
 app.post("/posting", async (req, res) => {

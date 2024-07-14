@@ -1,8 +1,10 @@
+//backend\controllers\personnelController.js
+
 const Personnel = require('../models/Personnel');
 
 const personnelController = {
   getPersonnel: (req, res) => {
-    Personnel.getPersonnel((err, results) => {
+    Personnel.getPersonnel('personnel', (err, results) => {
       if (err) {
         console.error('Error fetching personnel', err);
         res.status(500).json({ error: 'Internal server error' });
@@ -10,6 +12,27 @@ const personnelController = {
       }
       res.json(results);
     });
+  },
+  getWifeAll: (req, res) => {
+    Personnel.getPersonnel('wifedetails', (err, results) => {
+      if (err) {
+        console.error('Error fetching wife', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(results)
+    });
+
+  },
+  getChildAll: (req, res) => {
+    Personnel.getPersonnel('childdetails', (err, results) => {
+      if (err) {
+        console.error('Error fetching child', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(results);
+    })
   },
   getWife: (req, res) => {
     const { serviceNumber } = req.params;
@@ -46,17 +69,19 @@ const personnelController = {
   },
 
   getColumn: (req, res) => {
-    Personnel.getColumn('armypersonal', (err, results) => {
-      if (err) {
-        console.error('Error fetching columns', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-        return;
-      }
-      res.json(results);
-    })
+   Personnel.getColumn('personnel', (err, results) =>{
+    if(err)
+    {
+      console.error('Error Fetching all details', err);
+      res.status(500).json({error : 'Internal Server Error'});
+      return;
+    }
+    res.json(results);
+   });
   },
+ 
   getColumnWife: (req, res) => {
-    Personnel.getColumn('armywife', (err, results) => {
+    Personnel.getColumn('wifedetails', (err, results) => {
       if (err) {
         console.error('Error fetching wife columns', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -67,7 +92,7 @@ const personnelController = {
   },
 
   getColumnChild: (req, res) => {
-    Personnel.getColumn('armychild', (err, results) => {
+    Personnel.getColumn('childdetails', (err, results) => {
       if (err) {
         console.error('Error fetching child columns', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -76,6 +101,7 @@ const personnelController = {
       res.json(results);
     });
   },
+
 
   insertPersonnel: (req, res) => {
     const personnelData = req.body;
@@ -88,7 +114,7 @@ const personnelController = {
       res.json({ status: 200, message: 'Personnel data inserted', insertId: results.insertId });
     });
   },
-  
+
 
   insertWife: (req, res) => {
     const wifeData = req.body;
@@ -114,5 +140,7 @@ const personnelController = {
     });
   }
 };
+
+
 
 module.exports = personnelController;

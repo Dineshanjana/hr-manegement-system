@@ -22,7 +22,7 @@ import PostingForm from './components/PostingFrom';
 import PostingTable from './components/postingtable';
 import LeaveForm from './components/LeaveForm';
 import LeaveTable from './components/LeaveTable';
-import AdditionalColumns from './pages/AdditionalColumns';
+import AdditionalColumns from './components/AdditionalColumns';
 
 
 

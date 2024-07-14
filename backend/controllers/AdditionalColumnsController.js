@@ -38,47 +38,6 @@ const AddColumnsController = {
             }
             res.json({ status: 200, message: 'Child Column Added SuccessFully' });
         })
-    },
-
-    insertData: (req, res) =>{
-        const {columnName, value} = req.body;
-        console.log(columnName,value);
-        AddColumns.insertData('additionalpersonnel', columnName, value, (err, results) =>{
-            if (err) {
-                console.error('Error Fetch for insert data', err);
-                res.status(500).json({ error: 'Internal Server Error' });
-                return;
-            }
-            res.json({status: 200, message: 'Data inserted SuccessFully'});
-        })
-    },
-
-    insertwifeData: (req,res) =>{
-        const {columnName, value} = req.body;
-
-        AddColumns.insertData('additionalwife', columnName, value, (err,results) =>{
-            if(err)
-            {
-                console.error('Error Fetch for insert data', err);
-                res.status(500).json({ error: 'Internal Server Error' });
-                return;
-            }
-            res.json({status: 200, message: 'Data inserted SuccessFully'});
-        })
-    },
-
-    insertchildData: (req,res) =>{
-        const  {columnName, value} = req.body;
-        
-        AddColumns.insertData('additionalchild', columnName, value, (err,results) =>{
-            if(err)
-            {
-                console.error('Error Fetch for insert data', err);
-                res.status(500).json({error: 'Internal Server Error'});
-                return;
-            }
-            res.json({status: 200,  message: 'Data inserted SuccessFully'});
-        })
     }
    
 }
